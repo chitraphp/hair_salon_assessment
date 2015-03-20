@@ -45,7 +45,7 @@
                 $stylist_id = $stylist['id'];
                 $stylist_name = $stylist['stylist_name'];
                 $new_stylist = new Stylist($stylist_id, $stylist_name);
-                array_push($stylist, $new_stylist);
+                array_push($stylists, $new_stylist);
             }
             return $stylists;
         }
@@ -60,7 +60,7 @@
             $found_stylist = null;
             $stylists = Stylist::getAll();
             foreach($stylists as $stylist){
-                $stylist_id = $stylist['stylist_id'];
+                $stylist_id = $stylist->getStylistId();
                 if($stylist_id == $search_id){
                     $found_stylist = $stylist;
                 }
@@ -70,7 +70,7 @@
         }
 
 
-        function getClients()
+        static function getClients()
         {
             $clients = array();
             $returned_clients = $GLOBALS['DB']->query("SELECT * FROM clients WHERE stylist_id = {$this->getStylistId()};");

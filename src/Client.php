@@ -11,7 +11,7 @@
         {
             $this->client_id = $client_id;
             $this->client_name = $client_name;
-            $this->$stylist_id = $stylist_id
+            $this->stylist_id = $stylist_id;
         }
 
         function setClientId($new_id)
@@ -46,7 +46,7 @@
 
         function save()
         {
-            $statement = $GLOBALS['DB']->query("INSERT INTO clients (name, stylist_id) VALUES ('{$this->getClientName()}',{$this->getStylistId()}) RETURNING id;");
+            $statement = $GLOBALS['DB']->query("INSERT INTO clients (client_name, stylist_id) VALUES ('{$this->getClientName()}',{$this->getStylistId()}) RETURNING id;");
             $result = $statement->fetch(PDO::FETCH_ASSOC);
             $this->setClientId($result['id']);
         }

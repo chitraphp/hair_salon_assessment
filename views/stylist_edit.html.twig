@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+      <div class = "container">
+        <h1>Update the {{ stylist.getStylistName }} cuisine</h1>
+
+        <form action='/stylists/{{ stylist.getStylistId }}' method='post'>
+            <input type='hidden' name='_method' value='patch'>
+
+            <label for='stylist_name'>Rename your Stylist:</label>
+            <input type='text' name='stylist_name' id='stylist_name'>
+
+            <button type='submit'>Update</button>
+        </form>
+        <form action='/stylists/{{ stylist.getStylistId }}' method='post'>
+            <input type='hidden' name='_method' value='delete'>
+
+            <button type='submit'>Delete this cuisine</button>
+        </form>
+      </div>
+    </body>
+</html>

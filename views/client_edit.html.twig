@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+      <div class = "container">
+        <h1>Update the {{ client.getClientName }} </h1>
+
+        <form action='/clients/{{ client.getClientId }}' method='post'>
+            <input type='hidden' name='_method' value='patch'>
+
+            <label for='client_name'>Rename your Client:</label>
+            <input type='text' name='client_name' id='client_name'>
+
+            <button type='submit'>Update</button>
+        </form>
+        <form action='/clients/{{ client.getClientId }}' method='post'>
+            <input type='hidden' name='_method' value='delete'>
+
+            <button type='submit'>Delete this Client</button>
+        </form>
+      </div>
+    </body>
+</html>

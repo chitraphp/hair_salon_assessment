@@ -46,9 +46,12 @@
 
         function save()
         {
-            $statement = $GLOBALS['DB']->query("INSERT INTO clients (client_name, stylist_id) VALUES ('{$this->getClientName()}',{$this->getStylistId()}) RETURNING id;");
-            $result = $statement->fetch(PDO::FETCH_ASSOC);
-            $this->setClientId($result['id']);
+            // $statement = $GLOBALS['DB']->query("INSERT INTO clients (client_name, stylist_id) VALUES ('{$this->getClientName()}',{$this->getStylistId()}) RETURNING id;");
+            // $result = $statement->fetch(PDO::FETCH_ASSOC);
+            // $this->setClientId($result['id']);
+            $statement = $GLOBALS['DB']->query("INSERT INTO clients (client_name, stylist_id) VALUES ('{$this->getClientName()}',{$this->getStylistId()})");
+            $last_id = $GLOBALS['DB']->lastInsertId();
+            $this->setClientId($last_id);
         }
 
         static function getAll()
@@ -56,7 +59,7 @@
             $returned_clients = $GLOBALS['DB']->query("SELECT * FROM clients;");
             $clients = array();
             foreach($returned_clients as $client){
-                $client_id = $client['id'];
+                $client_id = $client['client_id'];
                 $client_name = $client['client_name'];
                 $stylist_id = $client['stylist_id'];
                 $new_client = new Client($client_id, $client_name, $stylist_id);
@@ -67,7 +70,8 @@
 
         static function deleteAll()
         {
-            $GLOBALS['DB']->exec("DELETE FROM clients *;");
+            //$GLOBALS['DB']->exec("DELETE FROM clients *;");
+            $GLOBALS['DB']->exec("DELETE FROM clients;");
         }
 
         static function find($search_id)
@@ -75,7 +79,7 @@
             $found_client = null;
             $clients = Client::getAll();
             foreach($clients as $client){
-                $client_id = $client['client_id'];
+                $client_id = $client->getClientId();
                 if($client_id == $search_id){
                     $found_client = $client;
                 }
@@ -84,8 +88,23 @@
             return $found_client;
         }
 
+        function updateClient($new_name)
+        {
+            $GLOBALS['DB']->exec("UPDATE clients SET client_name = '{$new_name}' WHERE client_id = {$this->getClientId()};");
+            $this->setClientName($new_name);
+        }
 
-
+        function deleteClient($delete_client_id)
+        {
+            $clients = Client::getAll();
+            foreach($clients as $client)
+            {
+              $client_id = $client->getClientId();
+              if($client_id == $delete_client_id){
+                $GLOBALS['DB']->exec("DELETE FROM clients WHERE client_id = {$delete_client_id};");
+              }
+            }
+        }
 
 
 

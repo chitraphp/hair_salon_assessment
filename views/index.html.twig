@@ -20,6 +20,8 @@
         <ul>
             {% for stylist in stylists %}
                 <li><a href='/stylists/{{ stylist.getStylistId }}'>{{ stylist.getStylistName }}</a></li>
+                <li><a href='/stylists/{{ stylist.getStylistId }}/edit'>Edit</a> </li>
+
             {% endfor %}
         </ul>
         {% else %}
